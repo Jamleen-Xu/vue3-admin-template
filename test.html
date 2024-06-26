@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            background-color: blue;
+        }
+
+        .box {
+            position: fixed;
+            width: 1920px;
+            height: 1080px;
+            background-color: antiquewhite;
+
+            /* 使用scale实现适配 */
+            transform-origin: left top;
+            left: 50%;
+            top: 50%;
+        }
+
+        .one {
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+            margin-left: 50px;
+        }
+
+        .two {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            margin-left: 50px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="box">
+            <div class="one"></div>
+            <div class="two"></div>
+        </div>
+    </div>
+
+
+    <script>
+        navigator.getBattery().then((battery) => {
+            console.log(battery)
+        })
+
+        // 控制数据大屏放大与缩小
+        let box = document.querySelector('.box')
+        box.style.transform = `scale(${getScale()}) translate(-50%, -50%)`;
+        // 计算缩放的比例 ，这里的默认参数是 设计稿的尺寸，实际需要放大缩小的的是box
+        function getScale(w = 1920, h = 1080) {
+            const ww = window.innerWidth / w;
+            const hh = window.innerHeight / h;
+            // 为了不失真，取最小值
+            return ww < hh ? ww : hh;
+        }
+
+        // 监视页面缩放变化
+        window.onresize = () => {
+            box.style.transform = `scale(${getScale()}) translate(-50%, -50%)`;
+        }
+    </script>
+</body>
+
+</html>
